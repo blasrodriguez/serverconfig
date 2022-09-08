@@ -1,0 +1,36 @@
+- hosts: localhost
+  vars: 
+  - packages:
+    - docker.io
+    - docker-compose
+  - compose_files_dir: /root/compose
+  - compose_apps:
+    - mealie
+  tasks:
+  - name: install packages 
+    package:
+      name: "{{ item }}"
+      state: present
+    loop: "{{ packages }}"
+
+  - name: Create dir for compose files
+    file: path={{compose_files_dir}} state=directory
+
+  - name: Copy compose files
+    copy:
+      src: compose/{{ item }}.yml
+      dest: "{{  compose_files_dir }}"
+    loop: "{{ compose_apps }}"
+
+  - name: Create systemd service files
+    template:
+      src: compose.service.j2
+      dest: /lib/systemd/system/{{ item }}.service
+    loop: "{{ compose_apps }}"
+
+  - name: Enable services
+    service: 
+      name: "{{ item }}"
+      state: started 
+      enabled: yes
+    loop: "{{ compose_apps }}"
