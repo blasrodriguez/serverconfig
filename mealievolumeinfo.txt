@@ -1,0 +1,15 @@
+[
+    {
+        "CreatedAt": "2023-02-03T15:41:59Z",
+        "Driver": "local",
+        "Labels": {
+            "com.docker.compose.project": "compose",
+            "com.docker.compose.version": "1.25.0",
+            "com.docker.compose.volume": "mealie-data"
+        },
+        "Mountpoint": "/var/lib/docker/volumes/compose_mealie-data/_data",
+        "Name": "compose_mealie-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
