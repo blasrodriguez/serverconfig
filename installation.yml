@@ -1,5 +1,6 @@
 - hosts: localhost
   vars: 
+  - base_url: http://recetasbuenas.ddns.net:9925
   - packages:
     - docker.io
     - docker-compose
@@ -17,9 +18,9 @@
     file: path={{compose_files_dir}} state=directory
 
   - name: Copy compose files
-    copy:
-      src: compose/{{ item }}.yml
-      dest: "{{  compose_files_dir }}"
+    template:
+      src: compose/{{ item }}.yml.j2
+      dest: "{{  compose_files_dir }}/{{ item }}.yml"
     loop: "{{ compose_apps }}"
 
   - name: Create systemd service files
